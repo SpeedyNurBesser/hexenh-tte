@@ -1,6 +1,6 @@
 import json
 
-filename = 'highscores'
+filename = 'highscores.json'
 
 def loadHighscores():
     s = []
