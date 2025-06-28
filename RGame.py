@@ -27,7 +27,7 @@ class RGame:
         self.currentHighlight = []
 
         self.timer = 0
-        self.fallInterval = 10 # given as number of steps, i.e. runs of the self.next() method, the method is expected to run 60 times a second
+        self.fallInterval = 30 # given as number of steps, i.e. runs of the self.next() method, the method is expected to run 60 times a second
         self.steps = 0 # is never reset, needed for highscores
 
 
