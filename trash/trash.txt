@@ -1,0 +1,440 @@
+# create 2d coordinate system (2-dimension-array) with an y-axes of length gameboardSizeY
+# and an x-axes of length gameboardSizeX + gameboardSizeY - 1
+# giving you a coordinate system like so
+
+# ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '
+# ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '
+# ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '
+# ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '
+# ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '
+# ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '
+
+# then in every row place (x-axes-length - gameboardSizeX) wall indicators (@)
+# seperate the wall indicators by gameboardSizeX on left and right
+# for every new row incrrease the numbe of left-wall-indicators and decrease the number of right-wall-indicators by 1
+# the resulting system should look like this
+
+# ' ', ' ', ' ', ' ', '@', '@', '@', '@', '@'
+# '@', ' ', ' ', ' ', ' ', '@', '@', '@', '@'
+# '@', '@', ' ', ' ', ' ', ' ', '@', '@', '@'
+# '@', '@', '@', ' ', ' ', ' ', ' ', '@', '@'
+# '@', '@', '@', '@', ' ', ' ', ' ', ' ', '@'
+# '@', '@', '@', '@', '@', ' ', ' ', ' ', ' '
+
+# congratulations, you have now created a 2-dimensional-array for storing your blocks location
+
+def createBoard(sizeX, sizeY):
+    # create all rows
+    rows = []
+    for i in range(sizeY):
+        leftIndicators = i
+        rightIndicators = sizeY - 1 - i
+        row = []
+        for j in range(sizeY):
+            for _ in range(leftIndicators):
+                row.append(WALL_INDICATOR)
+
+            for _ in range(sizeX):
+                row.append(' ')
+
+            for _ in range(rightIndicators):
+                row.append(WALL_INDICATOR)
+        rows.append(row)
+
+
+    board = []
+
+    for i in range(sizeX + sizeY - 1):
+        col = []
+        for row in rows:
+            col.append(row[i])
+        board.append(col)
+
+
+    print(board)
+
+createBoard(gameboardSizeX, gameboardSizeY)
+
+
+
+
+###########
+
+def isContinuous(polyhex):
+        visited = set()
+        stack = [polyhex[0]]
+        while stack:
+            current = stack.pop()
+            if current not in visited:
+                visited.add(current)
+                for dx, dy in DIRECTIONS:
+                    neighbor = (current[0] + dx, current[1] + dy)
+                    if neighbor in polyhex and neighbor not in visited:
+                        stack.append(neighbor)
+
+        return len(visited) == len(polyhex)
+
+
+
+################
+
+import math
+
+HEXAGON_RADIUS = 100
+
+
+def getHexagonCorners(vector: tuple, radius: int):
+    corners = []
+
+    for n in range(1, 7):
+        degree = (n * 60) + 30
+
+        x = int(radius * math.cos(math.radians(degree)))
+        y = int(radius * math.sin(math.radians(degree)))
+        movedX = x + vector[0]
+        movedY = y + vector[1]
+
+        corners.append((movedX, movedY))
+
+    return corners
+
+
+
+
+
+
+########################################################
+
+
+vector = (position[0] - lastPosition[0], position[1] - lastPosition[1])
+            scaledVector = (
+                (2 * vector[0] + vector[1]) * (HEXAGON_INNER_RADIUS),
+                vector[1]*(math.sqrt(3) * HEXAGON_INNER_RADIUS + 1.5)
+                )
+
+            lastPosition[0] = lastPosition[0] + vector[0]
+            lastPosition[1] = lastPosition[1] + vector[1]
+
+            whereToDraw[0] = whereToDraw[0] + scaledVector[0]
+            whereToDraw[1] = whereToDraw[1] + scaledVector[1]
+
+            actualPosition = (whereToDraw[0] - 100, whereToDraw[1])
+            print(actualPosition)
+
+
+##########################################################
+
+
+
+    def syncBoards(self):
+        for overlappingCells in self.overlappingCells:
+            l = overlappingCells["L"]
+            r = overlappingCells["R"]
+
+            lCell  = self.lGame.board[l[0]][l[1]]
+            rCell = self.rGame.board[r[0]][r[1]]
+
+            if lCell == rCell:
+                continue
+
+            if lCell == OCCUPIED_SYMBOL or rCell == OCCUPIED_SYMBOL:
+                rCell = OCCUPIED_SYMBOL
+                lCell = OCCUPIED_SYMBOL
+
+
+##########################################################
+
+
+
+def GameSelector():
+    running = True
+    selectedText = 0
+
+    NUMBER_OF_SELECTABLES = 6
+    click = False
+    enter = False
+
+    while running:
+        screen.fill(COLOR_5)
+
+        drawText("Select Mode", titleFont, COLOR_6, screen, 23, 18)
+        drawText("Select Mode", titleFont, COLOR_22, screen, 20, 15)
+
+
+        drawHexagon(75, COLOR_6, screen, 105, 130)
+        drawHexagon(75, COLOR_6, screen, 280, 130)
+        drawHexagon(75, COLOR_6, screen, 455, 130)
+        drawHexagon(75, COLOR_6, screen, 193, 280)
+        drawHexagon(75, COLOR_6, screen, 368, 280)
+        drawHexagon(75, COLOR_6, screen, 543, 280)
+
+        hexagonCorners_1 = getHexagonCorners(75, 100, 125)
+        hexagonCorners_2 = getHexagonCorners(75, 275, 125)
+        hexagonCorners_3 = getHexagonCorners(75, 450, 125)
+        hexagonCorners_4 = getHexagonCorners(75, 188, 275)
+        hexagonCorners_5 = getHexagonCorners(75, 363, 275)
+        hexagonCorners_6 = getHexagonCorners(75, 538, 275)
+
+        drawHexagon(75, COLOR_26, screen, 100, 125, COLOR_27, 5, hexagonCorners_1)
+        drawHexagon(75, COLOR_26, screen, 275, 125, COLOR_27, 5, hexagonCorners_2)
+        drawHexagon(75, COLOR_26, screen, 450, 125, COLOR_27, 5, hexagonCorners_3)
+        drawHexagon(75, COLOR_19, screen, 188, 275, COLOR_18, 5, hexagonCorners_4)
+        drawHexagon(75, COLOR_19, screen, 363, 275, COLOR_18, 5, hexagonCorners_5)
+        drawHexagon(75, COLOR_1, screen, 538, 275, COLOR_2, 5, hexagonCorners_6)
+
+        mx, my = pygame.mouse.get_pos()
+
+        if pointInPolygon(mx, my, hexagonCorners_1):
+            drawHexagon(0, COLOR_26, screen, 0, 0, COLOR_25, 5, hexagonCorners_1)
+            if click:
+                PolyhexSizer("SINGLE")
+        elif pointInPolygon(mx, my, hexagonCorners_2):
+            drawHexagon(0, COLOR_26, screen, 0, 0, COLOR_25, 5, hexagonCorners_2)
+            if click:
+                PolyhexSizer("DOUBLE_BOTTOM")
+        elif pointInPolygon(mx, my, hexagonCorners_3):
+            drawHexagon(0, COLOR_26, screen, 0, 0, COLOR_25, 5, hexagonCorners_3)
+            if click:
+                PolyhexSizer("DOUBLE_CENTER")
+        elif pointInPolygon(mx, my, hexagonCorners_4):
+            drawHexagon(0, COLOR_19, screen, 0, 0, COLOR_20, 5, hexagonCorners_4)
+            if click:
+                PolyhexSizer("MULTI_CENTER")
+        elif pointInPolygon(mx, my, hexagonCorners_5):
+            drawHexagon(0, COLOR_19, screen, 0, 0, COLOR_20, 5, hexagonCorners_5)
+            if click:
+                PolyhexSizer("MULTI_BOTTOM")
+        elif pointInPolygon(mx, my, hexagonCorners_6):
+            drawHexagon(0, COLOR_1, screen, 0, 0, COLOR_22, 5, hexagonCorners_6)
+            if click:
+                GameCustomizer()
+
+
+
+        if selectedText == 1:
+            drawHexagon(0, COLOR_26, screen, 0, 0, COLOR_25, 5, hexagonCorners_1)
+            if enter:
+                PolyhexSizer("SINGLE")
+        elif selectedText == 2:
+            drawHexagon(0, COLOR_26, screen, 0, 0, COLOR_25, 5, hexagonCorners_2)
+            if enter:
+                PolyhexSizer("DOUBLE_BOTTOM")
+        elif selectedText == 3:
+            drawHexagon(0, COLOR_26, screen, 0, 0, COLOR_25, 5, hexagonCorners_3)
+            if enter:
+                PolyhexSizer("DOUBLE_CENTER")
+        elif selectedText == 4:
+            drawHexagon(0, COLOR_19, screen, 0, 0, COLOR_20, 5, hexagonCorners_4)
+            if enter:
+                PolyhexSizer("MULTI_CENTER")
+        elif selectedText == 5:
+            drawHexagon(0, COLOR_19, screen, 0, 0, COLOR_20, 5, hexagonCorners_5)
+            if enter:
+                PolyhexSizer("MULTI_BOTTOM")
+        elif selectedText == 6:
+            drawHexagon(0, COLOR_1, screen, 0, 0, COLOR_22, 5, hexagonCorners_6)
+            if enter:
+                GameCustomizer()
+
+
+        drawText("SINGLE", buttonFont, COLOR_22, screen, 79, 120)
+        drawText("DOUBLE BOTTOM", buttonFont, COLOR_22, screen, 254, 120)
+        drawText("DOUBLE CENTER", buttonFont, COLOR_22, screen, 429, 120)
+        drawText("1vs1: Mode 1", buttonFont, COLOR_22, screen, 149, 270)
+        drawText("1vs1: Mode 2", buttonFont, COLOR_22, screen, 324, 270)
+        drawText("Customize", buttonFont, COLOR_22, screen, 506, 270)
+
+
+
+
+        click = False
+        enter = False
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                Titlescreen()
+            if event.type == pygame.KEYDOWN:
+                keys = pygame.key.get_pressed()
+
+                if keys[pygame.K_UP]:
+                    if selectedText > 0:
+                        selectedText -= 1
+                    else:
+                        selectedText = NUMBER_OF_SELECTABLES
+
+                if keys[pygame.K_DOWN]:
+                    if selectedText < NUMBER_OF_SELECTABLES:
+                        selectedText += 1
+                    else:
+                        selectedText = 0
+
+                if keys[pygame.K_RETURN]:
+                    enter = True
+
+                if keys[pygame.K_ESCAPE]:
+                    running = False
+
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if event.button == 1:
+                    click = True
+                    selectedText = 0 # would be confusing to have both selectiton through arrow keys and mouse
+
+        pygame.display.update()
+        clock.tick(60)
+
+
+###############################################################
+
+
+
+def MultiplayerGame(mode, polyhexSize):
+    game = False
+
+    topDistance = 0
+
+    if mode == "MULTI_BOTTOM":
+        topDistance = (-1) * (2*polyhexSize+1)
+        game = TwoPlayerGame(polyhexSize, topDistance)
+
+    elif mode == "MULTI_CENTER":
+        game = TwoPlayerGame(polyhexSize, topDistance)
+
+    BOARD_SIZE = game.boardSize
+
+    HEXAGON_INNER_RADIUS = SCREEN_SIZE[1] / (2* (BOARD_SIZE[1] + 4))
+    HEXAGON_OUTER_RADIUS = HEXAGON_INNER_RADIUS / 0.866
+
+    gameWidth = ((2*BOARD_SIZE[0]+topDistance)*HEXAGON_INNER_RADIUS)
+    GRID_OFFSET = ((SCREEN_SIZE[0] - gameWidth) / 2, 4*HEXAGON_INNER_RADIUS)
+
+    print(game.overlappingCells)
+
+    game.lGame.board[0][0] = OCCUPIED_SYMBOL
+    game.pushBoards(False)
+
+    while True:
+        #print("Iteration")
+        #print(game.lGame.board)
+        #print(game.rGame.board)
+        #print("")
+        moveL = [0, 0]
+        rotationL = 0
+        moveR = [0, 0]
+        rotationR = 0
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                Titlescreen()
+            if event.type == pygame.KEYDOWN:
+                keys = pygame.key.get_pressed()
+
+                if keys[pygame.K_ESCAPE]:
+                    GamePaused()
+
+                if keys[pygame.K_w]:
+                    moveL[1] -= 1
+                if keys[pygame.K_s]:
+                    moveL[1] += 1 # a move upwards is interpreted as a drop
+                if keys[pygame.K_a]:
+                    moveL[0] -= 1
+                if keys[pygame.K_d]:
+                    moveL[0] += 1
+                if keys[pygame.K_q]:
+                    rotationL -= 1
+                if keys[pygame.K_e]:
+                    rotationL += 1
+
+                if keys[pygame.K_i]:
+                    moveR[1] -= 1
+                if keys[pygame.K_k]:
+                    moveR[1] += 1 # a move upwards is interpreted as a drop
+                if keys[pygame.K_j]:
+                    moveR[0] -= 1
+                if keys[pygame.K_l]:
+                    moveR[0] += 1
+                if keys[pygame.K_u]:
+                    rotationR -= 1
+                if keys[pygame.K_o]:
+                    rotationR += 1
+
+
+        game.next(moveL, rotationL, moveR, rotationR)
+
+        screen.fill(COLOR_5)
+
+        for x, col in enumerate(game.rGame.board):
+            for y, slot in enumerate(col):
+                if y <= (game.boardSize[1] - game.polyhexSize - 1):
+                    offsetPosition = (GRID_OFFSET[0] + (2*x+y)*(HEXAGON_INNER_RADIUS),
+                                    GRID_OFFSET[1] + y*(math.sqrt(3) * HEXAGON_INNER_RADIUS + 1.5))
+                    drawHexagon(HEXAGON_OUTER_RADIUS, False, screen, offsetPosition[0], offsetPosition[1], border = COLOR_2, border_width = 3, hexagon_corners = False)
+        for x, col in enumerate(game.lGame.board):
+            for y, slot in enumerate(col):
+                if y <= (game.boardSize[1] - game.polyhexSize - 1):
+                    offsetPosition = ((2*x-y)*(HEXAGON_INNER_RADIUS) + GRID_OFFSET[0] + game.originDistance * (2*HEXAGON_INNER_RADIUS), GRID_OFFSET[1] + y*(math.sqrt(3) * HEXAGON_INNER_RADIUS + 1.5))
+                    drawHexagon(HEXAGON_OUTER_RADIUS, False, screen, offsetPosition[0], offsetPosition[1], border = COLOR_2, border_width = 3, hexagon_corners = False)
+
+
+        for x, col in enumerate(game.rGame.board):
+            for y, slot in enumerate(col):
+                if y <= (game.boardSize[1] - game.polyhexSize - 1):
+                    offsetPosition = (GRID_OFFSET[0] + (2*x+y)*(HEXAGON_INNER_RADIUS),
+                                    GRID_OFFSET[1] + y*(math.sqrt(3) * HEXAGON_INNER_RADIUS + 1.5))
+                    if slot == OCCUPIED_SYMBOL:
+                        drawHexagon(HEXAGON_OUTER_RADIUS, COLOR_26, screen, offsetPosition[0], offsetPosition[1], border = "black", border_width = 3, hexagon_corners = False)
+                    elif slot == PLAYER_SYMBOL:
+                        drawHexagon(HEXAGON_OUTER_RADIUS, COLOR_14, screen, offsetPosition[0], offsetPosition[1], border = "black", border_width = 3, hexagon_corners = False)
+                    elif slot == HIGHLIGHT_SYMBOL:
+                        drawHexagon(HEXAGON_OUTER_RADIUS, False, screen, offsetPosition[0], offsetPosition[1], border = COLOR_18, border_width = 3, hexagon_corners = False)
+                    else:
+                        pass
+                        #print(slot)
+
+        for x, col in enumerate(game.lGame.board):
+            for y, slot in enumerate(col):
+                if y <= (game.boardSize[1] - game.polyhexSize - 1):
+                    offsetPosition = ((2*x-y)*(HEXAGON_INNER_RADIUS) + GRID_OFFSET[0] + game.originDistance * (2*HEXAGON_INNER_RADIUS) ,
+                                    GRID_OFFSET[1] + y*(math.sqrt(3) * HEXAGON_INNER_RADIUS + 1.5))
+                    if slot == OCCUPIED_SYMBOL:
+                        drawHexagon(HEXAGON_OUTER_RADIUS, COLOR_26, screen, offsetPosition[0], offsetPosition[1], border = "black", border_width = 3, hexagon_corners = False)
+                    elif slot == PLAYER_SYMBOL:
+                        drawHexagon(HEXAGON_OUTER_RADIUS, COLOR_14, screen, offsetPosition[0], offsetPosition[1], border = "black", border_width = 3, hexagon_corners = False)
+                    elif slot == HIGHLIGHT_SYMBOL:
+                        drawHexagon(HEXAGON_OUTER_RADIUS, False, screen, offsetPosition[0], offsetPosition[1], border = COLOR_18, border_width = 3, hexagon_corners = False)
+                    else:
+                        pass
+                        #print(slot)
+
+        pygame.display.update()
+        clock.tick(60)
+
+
+######################################################
+
+
+if enter:
+                Options("Options", [
+                {
+                    "name": "Audio",
+                    "type": "SELECT",
+                    "function": lambda: print("HALLO!"),
+                    "id": 0
+                },
+                {
+                    "name": "Video",
+                    "type": "SELECT",
+                    "function": lambda: print("HAL111LO!"),
+                    "id": 1
+                },
+                {
+                    "name": "Key Bindings",
+                    "type": "SELECT",
+                    "function": lambda: print("HALLO2!"),
+                    "id": 2
+                },
+                {
+                    "name": "Back",
+                    "type": "CLOSE",
+                    "function": lambda: print("HALLO2!"),
+                    "id": 2
+                }
+                ])

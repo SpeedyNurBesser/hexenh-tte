@@ -1,0 +1,134 @@
+HIGHSCORES = [
+    {
+        "name": "Ole",
+        "score": 31415
+    },
+    {
+        "name": "Tim",
+        "score": 10217
+    },
+    {
+        "name": "xXx",
+        "score": 123
+    },
+    {
+        "name": "GHG",
+        "score": 1778716
+    },
+    {
+        "name": "Ole",
+        "score": 31415
+    },
+    {
+        "name": "Tim",
+        "score": 10217
+    },
+    {
+        "name": "xXx",
+        "score": 123
+    },
+    {
+        "name": "GHG",
+        "score": 1778716
+    },
+    {
+        "name": "Ole",
+        "score": 31415
+    },
+    {
+        "name": "Tim",
+        "score": 10217
+    },
+    {
+        "name": "xXx",
+        "score": 123
+    },
+    {
+        "name": "GHG",
+        "score": 1778716
+    },
+    {
+        "name": "Ole",
+        "score": 31415
+    },
+    {
+        "name": "Tim",
+        "score": 10217
+    },
+    {
+        "name": "xXx",
+        "score": 123
+    },
+    {
+        "name": "GHG",
+        "score": 1778716
+    },
+    {
+        "name": "Ole",
+        "score": 31415
+    },
+    {
+        "name": "Tim",
+        "score": 10217
+    },
+    {
+        "name": "xXx",
+        "score": 123
+    },
+    {
+        "name": "GHG",
+        "score": 1778716
+    },
+    {
+        "name": "Ole",
+        "score": 31415
+    },
+    {
+        "name": "Tim",
+        "score": 10217
+    },
+    {
+        "name": "xXx",
+        "score": 123
+    },
+    {
+        "name": "GHG",
+        "score": 1778716
+    },
+    {
+        "name": "Ole",
+        "score": 31415
+    },
+    {
+        "name": "Tim",
+        "score": 10217
+    },
+    {
+        "name": "xXx",
+        "score": 123
+    },
+    {
+        "name": "GHG",
+        "score": 1778716
+    },
+    {
+        "name": "Ole",
+        "score": 31415
+    },
+    {
+        "name": "Tim",
+        "score": 10217
+    },
+    {
+        "name": "xXx",
+        "score": 123
+    },
+    {
+        "name": "GHG",
+        "score": 1778716
+    },
+]
+
+HIGHSCORES = sorted(HIGHSCORES, key=lambda d: d['score'], reverse = True)
+
+highscoreManager.saveHighscores(HIGHSCORES)
